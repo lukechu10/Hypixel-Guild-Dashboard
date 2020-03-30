@@ -47,17 +47,15 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
     const urlFull = new url.URL(path, 'https://api.hypixel.net');
     urlFull.searchParams.set('key', API_KEY as string);
 
-    const cacheRes = await getCache("guild");
-    if (cacheRes !== null) {
-        return { ...cacheRes, fromCache: true };
-    }
-    else {
-        const res: object = await got(urlFull.href).json();
-        // save to cache
-        if (options.cache) {
-            updateCache("guild", res);
-            console.log("Updating cache for", "guild")
+    if (options.cache) {
+        const cacheRes = await getCache("guild");
+        if (cacheRes !== null) {
+            return { ...cacheRes, fromCache: true };
         }
-        return { ...res, fromCache: false };
     }
+    const res: object = await got(urlFull.href).json();
+    // save to cache
+    updateCache("guild", res);
+    console.log("Updating cache for", "guild")
+    return { ...res, fromCache: false };
 }
