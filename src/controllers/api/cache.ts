@@ -24,9 +24,16 @@ function updateCache(queryNameFind: string, data: object): void {
     }, { $set: { ...data, queryName: queryNameFind, lastModified: new Date() } });
 }
 
-async function getCache(queryName: string): Promise<object> {
+/**
+ * Returns the document if it does not need updating. Returns `null` if too old.
+ * @param queryName name of query to search for in db
+ */
+async function getCache(queryName: string): Promise<object | null> {
     const res = await db.collection('cache').find().limit(1).toArray();
-    return res[0];
+    if (res.length === 0) return null;
+    const deltaTime = moment(res[0].lastModified).diff(new Date(), "hours", true);
+    if (deltaTime > 5) return null; // five hours
+    else return res[0];
 }
 
 const API_KEY = process.env.API_KEY;
@@ -39,10 +46,18 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
 
     const urlFull = new url.URL(path, 'https://api.hypixel.net');
     urlFull.searchParams.set('key', API_KEY as string);
-    const res: object = await got(urlFull.href).json();
-    // save to cache
-    if (options.cache) {
-        updateCache("guild", res);
+
+    const cacheRes = await getCache("guild");
+    if (cacheRes !== null) {
+        return { ...cacheRes, fromCache: true };
     }
-    return await got(urlFull.href).json();
+    else {
+        const res: object = await got(urlFull.href).json();
+        // save to cache
+        if (options.cache) {
+            updateCache("guild", res);
+            console.log("Updating cache for", "guild")
+        }
+        return { ...res, fromCache: false };
+    }
 }
