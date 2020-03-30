@@ -21,7 +21,11 @@ function updateCache(queryNameFind: string, data: object): void {
         queryName: {
             $eq: queryNameFind
         }
-    }, { $set: { ...data, queryName: queryNameFind, lastModified: new Date() } });
+    }, {
+        $set: { ...data, queryName: queryNameFind, lastModified: new Date() }
+    }, {
+        upsert: true
+    });
 }
 
 /**

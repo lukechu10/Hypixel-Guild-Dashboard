@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/guild', async (req, res) => {
-  res.json(await addRequest('/guild?name=BloodyBedwars'));
+  res.json(await addRequest('/guild?name=BloodyBedwars', { cache: true }));
 })
 
 export default router;
