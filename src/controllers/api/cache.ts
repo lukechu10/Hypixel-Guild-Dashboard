@@ -1,5 +1,6 @@
 import url from "url";
 import got from "got";
+import moment from "moment";
 
 import assert from "assert";
 
@@ -36,7 +37,7 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
         cache: true
     }, options); // assign defaults
 
-    const urlFull = new URL(path, 'https://api.hypixel.net');
+    const urlFull = new url.URL(path, 'https://api.hypixel.net');
     urlFull.searchParams.set('key', API_KEY as string);
     const res: object = await got(urlFull.href).json();
     // save to cache
