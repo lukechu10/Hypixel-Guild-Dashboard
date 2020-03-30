@@ -7,6 +7,9 @@
     "compile": "tsc",
     "watch": "tsc --watch"
   },
+  "engines": {
+    "node": ">=0.12"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
