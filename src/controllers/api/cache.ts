@@ -43,6 +43,12 @@ async function getCache(queryName: string): Promise<object | null> {
 const API_KEY = process.env.API_KEY;
 if (typeof API_KEY !== "string") throw new Error("API key has not been set!");
 
+let lastRequest: Date = new Date();
+async function timeout(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+        setTimeout(() => { resolve(); }, ms)
+    });
+}
 export async function addRequest(path: string, options?: Partial<{ cache: boolean }>): Promise<object> {
     options = Object.assign({
         cache: true
@@ -57,9 +63,18 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
             return { ...cacheRes, fromCache: true };
         }
     }
+    // make sure previous request was more than half a second ago (120 reqs / min = about 0.5 secs per req)
+    const timeDiff = moment(new Date()).diff(lastRequest, "milliseconds");
+    if (timeDiff < 500) {
+        // sleep for diff
+        timeout(timeDiff);
+        console.log("Waiting", timeDiff, "ms for API limit");
+    }
+
     const res: object = await got(urlFull.href).json();
+    lastRequest = new Date();
     // save to cache
     updateCache("guild", res);
-    console.log("Updating cache for", "guild")
+    console.log("Updating cache for", "guild");
     return { ...res, fromCache: false };
 }
