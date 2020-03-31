@@ -8,12 +8,17 @@ block content
   .ui.statistic
     .value#statistic-members ...
     .label Members
-      
+  .ui.statistic
+    .value#statistic-exp ...
+    .label Guild Experience
+
   script.
     (async () => {
       const res = await (await fetch("/api/guild")).json();
+      console.log(res)
       $(() => {
         document.getElementById("statistic-members").textContent = res.guild.members.length;
+        document.getElementById("statistic-exp").textContent = `${Math.round(res.guild.exp / 1000000)}M`;
       });
     })();
     
