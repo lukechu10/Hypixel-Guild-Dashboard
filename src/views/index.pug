@@ -3,3 +3,17 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  h2 Guild Stats
+  .ui.statistic
+    .value#statistic-members ...
+    .label Members
+      
+  script.
+    (async () => {
+      const res = await (await fetch("/api/guild")).json();
+      $(() => {
+        document.getElementById("statistic-members").textContent = res.guild.members.length;
+      });
+    })();
+    
