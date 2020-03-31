@@ -35,7 +35,7 @@ function updateCache(queryNameFind: string, data: object): void {
 async function getCache(queryName: string): Promise<object | null> {
     const res = await db.collection('cache').find().limit(1).toArray();
     if (res.length === 0) return null;
-    const deltaTime = moment(res[0].lastModified).diff(new Date(), "hours", true);
+    const deltaTime = moment(new Date()).diff(res[0].lastModified, "hours", true);
     if (deltaTime > 5) return null; // five hours
     else return res[0];
 }
