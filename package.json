@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "watch": "concurrently --prefix-colors green -n server,client \"tsc --watch\" \"webpack --watch --mode=development\"",
-    "prod": "tsc webpack --mode=production"
+    "prod": "concurrently \"tsc\" \"webpack --mode=production\""
   },
   "engines": {
     "node": "12.x",
