@@ -11,15 +11,15 @@ import apiRouter from "./routes/api";
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '../src/views'));
+app.set('views', path.resolve("./src/server/views"));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../src/public')));
-app.use('/semantic', express.static(path.join(__dirname, '../semantic/dist')))
+app.use(express.static(path.resolve("./src/static/")));
+app.use('/semantic', express.static(path.resolve("./semantic/dist/")))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "concurrently --prefix-colors green -n server,client \"tsc --watch\" \"webpack --watch --mode=development\"",
+    "prod": "tsc webpack --mode=production"
   },
   "engines": {
     "node": "12.x",
@@ -29,6 +29,7 @@
     "@types/http-errors": "^1.6.3",
     "@types/mongodb": "^3.5.4",
     "@types/morgan": "^1.9.0",
+    "concurrently": "^5.2.0",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
