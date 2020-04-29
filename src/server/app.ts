@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.resolve("./src/static/")));
+app.use(express.static(path.resolve("./dist/webpack/")));
 app.use('/semantic', express.static(path.resolve("./semantic/dist/")))
 
 app.use('/', indexRouter);

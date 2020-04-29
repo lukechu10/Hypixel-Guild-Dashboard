@@ -1,8 +1,11 @@
+const path = require("path");
+
 module.exports = {
     mode: "development",
     devtool: "inline-source-map",
     entry: "./src/client/app.ts",
     output: {
+        path: path.resolve(__dirname, "dist", "webpack"),
         filename: "[name].bundle.js"
     },
     resolve: {
