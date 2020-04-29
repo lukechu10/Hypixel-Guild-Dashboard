@@ -30,6 +30,8 @@
     "@types/mongodb": "^3.5.4",
     "@types/morgan": "^1.9.0",
     "concurrently": "^5.2.0",
+    "html-webpack-plugin": "^4.2.1",
+    "lit-element": "^2.3.1",
     "ts-loader": "^7.0.1",
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
