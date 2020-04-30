@@ -1,4 +1,4 @@
-import { LitElement, customElement, html, TemplateResult, CSSResult, css, property } from "lit-element";
+import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
 
 @customElement("app-view")
 class App extends LitElement {
