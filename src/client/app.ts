@@ -1,4 +1,5 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
+import "./components/GuildMember";
 
 @customElement("app-view")
 export class App extends LitElement {
@@ -38,6 +39,13 @@ export class App extends LitElement {
     }
 
     protected render(): TemplateResult {
+        const memberList: TemplateResult[] = [];
+        for(const member of this.guildData.guild.members) {
+            memberList.push(html`
+                <guild-member .member="${member}"></guild-member>
+            `);
+        }
+
         return html`
             <h1>Bloody Bedwars</h1>
             <h3>
@@ -46,6 +54,11 @@ export class App extends LitElement {
                     <span>${this.guildExpStr}</span> Guild Experience
                 </div>
             </h3>
+
+            <section>
+                <h3>Member List</h3>
+                ${memberList}
+            </section>
         `;
     }
 }
