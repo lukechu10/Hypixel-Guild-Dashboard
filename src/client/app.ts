@@ -1,7 +1,7 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
 
 @customElement("app-view")
-class App extends LitElement {
+export class App extends LitElement {
     @property({ type: Object }) private guildData: any | null = null;
     @property({ type: Number }) private numMembers: number | string = "...";
     @property({ type: String }) private guildExpStr: string = "...";
