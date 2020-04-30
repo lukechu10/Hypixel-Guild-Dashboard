@@ -1,10 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+module.exports = (env, argv) => ({
     mode: "development",
     devtool: "inline-source-map",
     entry: "./src/client/app.ts",
+    devtool: argv.mode === "development" ? "inline-source-map" : "none",
     output: {
         path: path.resolve(__dirname, "dist", "webpack"),
         filename: "[name].bundle.js"
@@ -25,4 +26,4 @@ module.exports = {
             inject: "head"
         })
     ]
-};
+});
