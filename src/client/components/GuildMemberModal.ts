@@ -16,23 +16,32 @@ export class GuildMemberModal extends LitElement {
                 height: 100vh;
 
                 transition: all ${transitionDuration}ms;
+                visibility: hidden;
                 opacity: 0;
                 background: black;   
                 z-index: -1;
             }
             .show .dimmer {
+                visibility: visible;
                 opacity: 0.8;
                 z-index: 1;
             }
 
             .content {
+                z-index: 10;
+
                 opacity: 0;
                 background-color: white;
                 position: fixed;
                 top: 0;
                 left: 0;
                 transition: all ${transitionDuration}ms;
-                z-index: 10;
+                border-radius: 3px;
+                padding-left: 20px;
+                width: 80%;
+                margin-left: 10%;
+                height: 85px;
+                margin-top: calc(50vh - (85px / 2));
             }
 
             .show .content {
