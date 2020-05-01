@@ -16,7 +16,8 @@ export class GuildMemberModal extends LitElement {
                 width: 100vw;
                 height: 100vh;
 
-                transition: all ${transitionDuration}ms;
+                transition-property: opacity, visibility;
+                transition-duration: ${transitionDuration}ms;
                 visibility: hidden;
                 opacity: 0;
                 background: black;   
@@ -36,7 +37,8 @@ export class GuildMemberModal extends LitElement {
                 position: fixed;
                 top: 0;
                 left: 0;
-                transition: all ${transitionDuration}ms;
+                transition-property: opacity, z-index;
+                transition-duration: ${transitionDuration}ms;
                 border-radius: 3px;
                 padding-left: 20px;
                 width: 80%;
