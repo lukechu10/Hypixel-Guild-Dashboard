@@ -40,7 +40,6 @@ export class GuildMemberModal extends LitElement {
                 padding-left: 20px;
                 width: 80%;
                 margin-left: 10%;
-                height: 85px;
                 margin-top: calc(50vh - (85px / 2));
             }
 
@@ -56,6 +55,7 @@ export class GuildMemberModal extends LitElement {
                 <div class="dimmer"></div>
                 <div class="content">
                     <h1>${this.member?.rank}</h1>
+                    <h5>Quest Participiation: ${this.member?.questParticipation}</h5>
                 </div>
             </div> 
         `;
