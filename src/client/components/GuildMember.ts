@@ -30,7 +30,7 @@ export class GuildMember extends LitElement {
 
     protected render(): TemplateResult {
         return html`
-            <p><b>Loading...</b>&#9;${this.member.rank}</p>
+            <p><b>${this.member.name}</b>&#9;${this.member.rank}</p>
         `;
     }
 }

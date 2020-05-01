@@ -16,7 +16,7 @@ client.connect(err => {
     db = client.db('cache');
 });
 
-function updateCache(queryNameFind: string, data: object): void {
+export function updateCache(queryNameFind: string, data: object): void {
     db.collection("cache").updateOne({
         queryName: {
             $eq: queryNameFind
@@ -32,7 +32,7 @@ function updateCache(queryNameFind: string, data: object): void {
  * Returns the document if it does not need updating. Returns `null` if too old.
  * @param queryName name of query to search for in db
  */
-async function getCache(queryName: string): Promise<object | null> {
+export async function getCache(queryName: string): Promise<object | null> {
     const res = await db.collection("cache").find({ queryName: { $eq: queryName } }).limit(1).toArray();
     if (res.length === 0) return null;
     const deltaTime = moment(new Date()).diff(res[0].lastModified, "minutes", true);
@@ -49,6 +49,7 @@ async function timeout(ms: number): Promise<void> {
         setTimeout(() => { resolve(); }, ms)
     });
 }
+
 export async function addRequest(path: string, options?: Partial<{ cache: boolean }>): Promise<object> {
     options = Object.assign({
         cache: true
