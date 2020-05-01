@@ -1,4 +1,5 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
+import { until } from "lit-html/directives/until";
 
 const transitionDuration = 300;
 
@@ -50,12 +51,22 @@ export class GuildMemberModal extends LitElement {
     }
 
     protected render(): TemplateResult {
+        let template: TemplateResult;
+        if (this.member) {
+            const getNameContext = this.getName(this.member.uuid);
+            template = html`
+                <h1>${until(getNameContext, "Loading...")}</h1>
+                <h5>${this.member?.rank} | Quest Participiation: ${this.member.questParticipation}</h5>
+            `;
+
+        }
+        else template = html``;
+
         return html`
             <div class="dimmer-container">
                 <div class="dimmer"></div>
                 <div class="content">
-                    <h1>${this.member?.rank}</h1>
-                    <h5>Quest Participiation: ${this.member?.questParticipation}</h5>
+                    ${template}
                 </div>
             </div> 
         `;
@@ -69,5 +80,11 @@ export class GuildMemberModal extends LitElement {
             // hide modal
             this.renderRoot.querySelector(".dimmer-container")!.classList.remove("show");
         }, { once: true });
+    }
+
+    private async getName(uuid: string) {
+        const resJson = await (await fetch(`api/username/${uuid}`)).json();
+        const name = resJson[resJson.length - 1].name;
+        return name;
     }
 }
