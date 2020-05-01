@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -24,6 +25,8 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "./src/client/index.html"),
             inject: "head"
-        })
+        }),
+        // remove moment js locales
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ]
 });
