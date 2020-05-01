@@ -1,5 +1,6 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
 import { until } from "lit-html/directives/until";
+import moment from "moment";
 
 const transitionDuration = 300;
 
@@ -58,7 +59,7 @@ export class GuildMemberModal extends LitElement {
         if (this.member) {
             template = html`
                 <h1>${this.member?.name}</h1>
-                <h5>${this.member?.rank} | Quest Participiation: ${this.member.questParticipation}</h5>
+                <h5>${this.member?.rank} | joined ${moment(this.member.joined).fromNow()} | Quest Participiation: ${this.member.questParticipation}</h5>
             `;
 
         }

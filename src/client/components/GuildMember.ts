@@ -1,4 +1,5 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
+import moment from "moment";
 
 @customElement("guild-member")
 export class GuildMember extends LitElement {
@@ -30,7 +31,11 @@ export class GuildMember extends LitElement {
 
     protected render(): TemplateResult {
         return html`
-            <p><b>${this.member.name}</b>&#9;${this.member.rank}</p>
+            <p>
+                <b>${this.member.name}</b>
+                ${this.member.rank}
+                <span style="float: right;">joined ${moment(this.member.joined).fromNow()}</span>
+            </p>
         `;
     }
 }
