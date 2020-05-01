@@ -5,7 +5,7 @@ var router = express.Router();
 import { addRequest, getCache, updateCache } from "../controllers/api/cache";
 
 router.get("/guild", async (req: express.Request, res: express.Response) => {
-    res.json(await addRequest('/guild?name=BloodyBedwars', { cache: true }));
+    res.json(await addRequest("/guild?name=BloodyBedwars", { cache: true }));
 });
 
 async function getName(uuid: string) {
@@ -15,7 +15,7 @@ async function getName(uuid: string) {
 }
 
 async function updateUuidMap() {
-    const guildData: any = await addRequest('/guild?name=BloodyBedwars', { cache: true });
+    const guildData: any = await addRequest("/guild?name=BloodyBedwars", { cache: true });
     const members = guildData.guild.members;
     const uuidMap = new Map<string, string>();
 
@@ -28,14 +28,14 @@ async function updateUuidMap() {
     }
     await Promise.allSettled(promiseList);
     const uuidList = Array.from(uuidMap);
-    updateCache("uuidmap", { map: uuidList });
+    updateCache("/uuidmap", { map: uuidList });
 }
 
 setTimeout(updateUuidMap, 3000); // make sure mongodb server is connected
 setInterval(updateUuidMap, 1000 * 60 * 60 * 2); // every two hour
 
 router.get("/uuidmap", async (req: express.Request, res: express.Response) => {
-    const cacheRes = await getCache("uuidmap");
+    const cacheRes = await getCache("/uuidmap");
     if (cacheRes !== null) {
         res.json(cacheRes);
     }

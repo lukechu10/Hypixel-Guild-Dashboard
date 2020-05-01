@@ -17,6 +17,7 @@ client.connect(err => {
 });
 
 export function updateCache(queryNameFind: string, data: object): void {
+    console.log("Updating cache for", queryNameFind);
     db.collection("cache").updateOne({
         queryName: {
             $eq: queryNameFind
@@ -35,8 +36,8 @@ export function updateCache(queryNameFind: string, data: object): void {
 export async function getCache(queryName: string): Promise<object | null> {
     const res = await db.collection("cache").find({ queryName: { $eq: queryName } }).limit(1).toArray();
     if (res.length === 0) return null;
-    const deltaTime = moment(new Date()).diff(res[0].lastModified, "minutes", true);
-    if (deltaTime > 60) return null; // five hours
+    const deltaTime = moment(new Date()).diff(res[0].lastModified, "hours", true);
+    if (deltaTime > 1) return null; // five hours
     else return res[0];
 }
 
@@ -59,7 +60,7 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
     urlFull.searchParams.set('key', API_KEY as string);
 
     if (options.cache) {
-        const cacheRes = await getCache("guild");
+        const cacheRes = await getCache(path);
         if (cacheRes !== null) {
             return { ...cacheRes, fromCache: true };
         }
@@ -77,6 +78,5 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
     lastRequest = new Date();
     // save to cache
     updateCache(path, res);
-    console.log("Updating cache for", path);
     return { ...res, fromCache: false };
 }
