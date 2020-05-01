@@ -17,7 +17,7 @@ client.connect(err => {
 });
 
 function updateCache(queryNameFind: string, data: object): void {
-    db.collection('cache').updateOne({
+    db.collection("cache").updateOne({
         queryName: {
             $eq: queryNameFind
         }
@@ -33,10 +33,10 @@ function updateCache(queryNameFind: string, data: object): void {
  * @param queryName name of query to search for in db
  */
 async function getCache(queryName: string): Promise<object | null> {
-    const res = await db.collection('cache').find().limit(1).toArray();
+    const res = await db.collection("cache").find({ queryName: { $eq: queryName } }).limit(1).toArray();
     if (res.length === 0) return null;
-    const deltaTime = moment(new Date()).diff(res[0].lastModified, "hours", true);
-    if (deltaTime > 5) return null; // five hours
+    const deltaTime = moment(new Date()).diff(res[0].lastModified, "minutes", true);
+    if (deltaTime > 60) return null; // five hours
     else return res[0];
 }
 
@@ -63,6 +63,7 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
             return { ...cacheRes, fromCache: true };
         }
     }
+
     // make sure previous request was more than half a second ago (120 reqs / min = about 0.5 secs per req)
     const timeDiff = moment(new Date()).diff(lastRequest, "milliseconds");
     if (timeDiff < 500) {
@@ -74,7 +75,7 @@ export async function addRequest(path: string, options?: Partial<{ cache: boolea
     const res: object = await got(urlFull.href).json();
     lastRequest = new Date();
     // save to cache
-    updateCache("guild", res);
-    console.log("Updating cache for", "guild");
+    updateCache(path, res);
+    console.log("Updating cache for", path);
     return { ...res, fromCache: false };
 }
