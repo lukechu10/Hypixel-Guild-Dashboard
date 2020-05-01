@@ -78,9 +78,12 @@ export class GuildMemberModal extends LitElement {
         this.member = member;
         this.renderRoot.querySelector(".dimmer-container")!.classList.add("show");
 
+        document.querySelector("body")!.style.overflow = "hidden";
+
         this.addEventListener("click", () => {
             // hide modal
             this.renderRoot.querySelector(".dimmer-container")!.classList.remove("show");
+            document.querySelector("body")!.style.overflow = "initial";
         }, { once: true });
     }
 }
