@@ -29,7 +29,7 @@ export class GuildMemberModal extends LitElement {
             }
 
             .content {
-                z-index: 10;
+                z-index: -1;
 
                 opacity: 0;
                 background-color: white;
@@ -45,6 +45,8 @@ export class GuildMemberModal extends LitElement {
             }
 
             .show .content {
+                z-index: 10;
+
                 opacity: 1;
             }
         `;
