@@ -33,7 +33,8 @@ export class App extends LitElement {
     static get styles(): CSSResult {
         return css`
             * {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                user-select: none;
             }
 
             h3 {

@@ -46,7 +46,6 @@ export class GuildMemberModal extends LitElement {
 
             .show .content {
                 z-index: 10;
-
                 opacity: 1;
             }
         `;
