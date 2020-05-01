@@ -53,9 +53,8 @@ export class GuildMemberModal extends LitElement {
     protected render(): TemplateResult {
         let template: TemplateResult;
         if (this.member) {
-            const getNameContext = this.getName(this.member.uuid);
             template = html`
-                <h1>${until(getNameContext, "Loading...")}</h1>
+                <h1>${this.member?.name}</h1>
                 <h5>${this.member?.rank} | Quest Participiation: ${this.member.questParticipation}</h5>
             `;
 
@@ -80,11 +79,5 @@ export class GuildMemberModal extends LitElement {
             // hide modal
             this.renderRoot.querySelector(".dimmer-container")!.classList.remove("show");
         }, { once: true });
-    }
-
-    private async getName(uuid: string) {
-        const resJson = await (await fetch(`api/username/${uuid}`)).json();
-        const name = resJson[resJson.length - 1].name;
-        return name;
     }
 }

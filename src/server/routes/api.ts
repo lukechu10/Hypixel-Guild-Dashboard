@@ -34,11 +34,6 @@ async function updateUuidMap() {
 setTimeout(updateUuidMap, 3000); // make sure mongodb server is connected
 setInterval(updateUuidMap, 1000 * 60 * 60 * 2); // every two hour
 
-router.get("/username/:uuid", async (req: express.Request, res: express.Response) => {
-    const fetch = await got(`https://api.mojang.com/user/profiles/${req.params.uuid}/names`);
-    res.send(fetch.body);
-});
-
 router.get("/uuidmap", async (req: express.Request, res: express.Response) => {
     const cacheRes = await getCache("uuidmap");
     if (cacheRes !== null) {
