@@ -24,6 +24,10 @@ export class GuildMember extends LitElement {
         `;
     }
 
+    public connectedCallback(): void {
+        super.connectedCallback();
+    }
+
     protected render(): TemplateResult {
         return html`
             <p><b>Loading...</b>&#9;${this.member.rank}</p>

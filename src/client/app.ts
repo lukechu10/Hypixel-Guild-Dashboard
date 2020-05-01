@@ -1,5 +1,8 @@
 import { css, CSSResult, customElement, html, LitElement, property, TemplateResult } from "lit-element";
 import "./components/GuildMember";
+import "./components/GuildMemberModal";
+import { GuildMemberModal } from "./components/GuildMemberModal";
+import { GuildMember } from "./components/GuildMember";
 
 @customElement("app-view")
 export class App extends LitElement {
@@ -40,9 +43,9 @@ export class App extends LitElement {
 
     protected render(): TemplateResult {
         const memberList: TemplateResult[] = [];
-        for(const member of this.guildData.guild.members) {
+        for (const member of this.guildData.guild.members) {
             memberList.push(html`
-                <guild-member .member="${member}"></guild-member>
+                <guild-member .member="${member}" @click="${this.showGuildMemberModal}"></guild-member>
             `);
         }
 
@@ -59,6 +62,13 @@ export class App extends LitElement {
                 <h3>Member List</h3>
                 ${memberList}
             </section>
+
+            <guild-member-modal></guild-member-modal>
         `;
+    }
+
+    private showGuildMemberModal(e: Event) {
+        const member = (e.currentTarget! as GuildMember).member;
+        this.renderRoot.querySelector<GuildMemberModal>("guild-member-modal")!.showModal(member);
     }
 }
