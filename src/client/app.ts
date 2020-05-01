@@ -42,29 +42,32 @@ export class App extends LitElement {
     }
 
     protected render(): TemplateResult {
-        const memberList: TemplateResult[] = [];
-        for (const member of this.guildData.guild.members) {
-            memberList.push(html`
-                <guild-member .member="${member}" @click="${this.showGuildMemberModal}"></guild-member>
-            `);
+        if (this.guildData !== null) {
+            const memberList: TemplateResult[] = [];
+            for (const member of this.guildData.guild.members) {
+                memberList.push(html`
+                    <guild-member .member="${member}" @click="${this.showGuildMemberModal}"></guild-member>
+                `);
+            }
+
+            return html`
+                <h1>Bloody Bedwars</h1>
+                <h3>
+                    <span>${this.numMembers}</span> Members
+                    <div class="App-right">
+                        <span>${this.guildExpStr}</span> Guild Experience
+                    </div>
+                </h3>
+    
+                <section>
+                    <h3>Member List</h3>
+                    ${memberList}
+                </section>
+    
+                <guild-member-modal></guild-member-modal>
+            `;
         }
-
-        return html`
-            <h1>Bloody Bedwars</h1>
-            <h3>
-                <span>${this.numMembers}</span> Members
-                <div class="App-right">
-                    <span>${this.guildExpStr}</span> Guild Experience
-                </div>
-            </h3>
-
-            <section>
-                <h3>Member List</h3>
-                ${memberList}
-            </section>
-
-            <guild-member-modal></guild-member-modal>
-        `;
+        else return html``;
     }
 
     private showGuildMemberModal(e: Event) {
